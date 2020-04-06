@@ -1,0 +1,173 @@
+<div class="container">
+
+    <%- include("../partials/navbar.ejs", {}) %>
+
+        <h1>Home</h1>
+
+        <div class="row">
+            <!-- left -->
+            <div class="col-md-4">
+                <!-- year/month picker -->
+
+                <div class="form-group">
+                    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                      <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" />
+                      <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                      </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- right -->
+            <div class="col-md-8">
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- left -->
+            <div class="col-md-4">
+                <!-- Balance -->
+                <div class="card" style="margin-top:20px;">
+                    <div class="card-header">
+                        収支
+                    </div>
+                    <div class="card-body">
+                        <!-- progress-bar -->
+                        <div class="row">
+                            <div class="col">
+                                <div class="progress">
+                                    <div class="progress-bar" id="prgbarBalance" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- amount -->
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <span>支出：</span><span id="sumExpense"></span>
+                            </div>
+                            <div class="col-auto">
+                                <span>残高：</span><span id="sumBalance"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- right -->
+            <div class="col-md-8">
+                <div class="card" style="margin-top:20px;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div style="margin:0px 10px 10px 10px;">
+                                <button class="btn btn-primary" id="btnOpenDetailModal"><i class="fa fa-plus"></i> 追加</button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <table class="table table-sm">
+                                <thead>
+                                    <th>日付</th>
+                                    <th>カテゴリ</th>
+                                    <th>収入額</th>
+                                    <th>支出額</th>
+                                    <th>メモ</th>
+                                    <th></th>
+                                </thead>
+                                <tbody id="tbDetails">
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+        
+                </div>
+            </div>
+
+        </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="mdlDetail" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">明細編集</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <input type="hidden" id="detailId" />
+                <div class="form-group row">
+                    <label for="inputDate" class="col-sm-3 col-form-label">日付</label>
+                    <div class="col-sm-9">
+
+                        <div class="input-group date" id="frmDate" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-toggle="datetimepicker" data-target="#frmDate" autocomplete="off" style="width: 200px;" />
+                            <div class="input-group-append" data-target="#frmDate" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+        
+
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="rd" class="col-sm-3 col-form-label">区分</label>
+                    <div class="col-sm-9">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="rdTypeIncome" name="frmType" value="1" class="custom-control-input">
+                            <label class="custom-control-label" for="rdTypeIncome">収入</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="rdTypeExpense" name="frmType" value="2" class="custom-control-input">
+                            <label class="custom-control-label" for="rdTypeExpense">支出</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="fmrCategory" class="col-sm-3 col-form-label">カテゴリ</label>
+                    <div class="col-sm-9">
+
+                        <select class="custom-select mr-sm-2" id="fmrCategory">
+                            <option selected value="">Choose...</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                          </select>
+
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="frmAmount" class="col-sm-3 col-form-label">金額</label>
+                    <div class="col-sm-9">
+                      <input type="number" class="form-control" id="frmAmount" placeholder="" style="text-align:right;">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="frmMemo" class="col-sm-3 col-form-label">メモ</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="frmMemo" placeholder="">
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" id="btnSave"><i class="fas fa-check"></i> Save changes</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/index.js"></script>
